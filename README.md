@@ -19,7 +19,11 @@ cd ngramdb-app/target
 java -jar ngramdb.jar
 ```
 
-Modify `ignite.xml` and `application.properties` to change available settings.
+To submit n-grams:
+
+`curl -X POST "http://localhost:8080/api/insert?c=context&n=test1,test2"`
+
+Other example requests are in the `test-scripts` directory. Modify `ignite.xml` and `application.properties` to change available settings.
 
 ## License
 
