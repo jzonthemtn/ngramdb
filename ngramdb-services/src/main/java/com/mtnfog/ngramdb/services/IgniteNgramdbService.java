@@ -197,6 +197,8 @@ public class IgniteNgramdbService implements NgramdbService {
 	@Override
 	public int raw(String context, int n, String raw) {
 		
+		raw = raw.toLowerCase().replaceAll("\\p{Punct}", "");
+		
 		String[] tokens = WhitespaceTokenizer.INSTANCE.tokenize(raw);
 		
 		Collection<String[]> ngrams = NGramUtils.getNGrams(tokens, n);

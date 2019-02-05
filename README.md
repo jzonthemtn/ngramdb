@@ -23,7 +23,9 @@ To submit n-grams:
 
 `curl -X POST "http://localhost:8080/api/insert?c=context&n=test1,test2"`
 
-Other example requests are in the `test-scripts` directory. Modify `ignite.xml` and `application.properties` to change available settings.
+Raw plain text can be submitted to the `/raw` endpoint and ngramdb will extract the n-grams from the text. Extracted n-grams will cross sentence boundaries. For more control over the extraction, handle it outside of ngramdb and `post` the n-grams to `/insert`. Other example requests are in the `test-scripts` directory.
+
+See `ignite.xml` and `application.properties` for available settings.
 
 ## License
 
