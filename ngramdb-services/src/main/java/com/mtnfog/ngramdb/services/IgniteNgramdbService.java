@@ -88,13 +88,14 @@ public class IgniteNgramdbService implements NgramdbService {
 
 				SqlFieldsQuery query = new SqlFieldsQuery(
 		          "select n.ngram, count(n.ngram) as cnt from Ngram n " + 
-		            "where n.context = '" + context1 + "' " + 
+		            "where n.context = ? " + 
 		            "and n.n = " + 1 + " " +
 		            "group by n.ngram " + 
 		            "order by cnt desc",
 		          true
 			    );
 				
+				query.setArgs(context1);
 				query.setSchema(CACHE_NAME);
 				
 				try (QueryCursor<List<?>> cursor = cache.query(query)) {
@@ -113,18 +114,17 @@ public class IgniteNgramdbService implements NgramdbService {
 					}
 					
 				}
-						
-				// ====
-				
+
 				query = new SqlFieldsQuery(
 		          "select n.ngram, count(n.ngram) as cnt from Ngram n " + 
-		            "where n.context = '" + context2 + "' " + 
+		            "where n.context = ? " + 
 		            "and n.n = " + 1 + " " +
 		            "group by n.ngram " + 
 		            "order by cnt desc",
 		          true
 			    );
 				
+				query.setArgs(context2);
 				query.setSchema(CACHE_NAME);
 				
 				try (QueryCursor<List<?>> cursor = cache.query(query)) {
@@ -254,15 +254,16 @@ public class IgniteNgramdbService implements NgramdbService {
 		
 		SqlFieldsQuery query = new SqlFieldsQuery(
           "select n.ngram, count(n.ngram) as cnt from Ngram n " + 
-            "where n.context = '" + context + "' " + 
-            "and n.ngram like '" + startsWith + "%' " + 
-            "and n.n = " + n + " " +
+            "where n.context = ? " + 
+            "and n.ngram like ? " + 
+            "and n.n = ? " +
             "group by n.ngram " + 
             "order by cnt desc " + 
-            "limit " + max,
+            "limit ?",
             false
-	  );
+	    );
       
+		query.setArgs(context, startsWith + "%", n, max);
 		query.setSchema(CACHE_NAME);
  
 		return resultsToMap(cache.query(query).getAll());
@@ -276,14 +277,15 @@ public class IgniteNgramdbService implements NgramdbService {
 		
 		SqlFieldsQuery query = new SqlFieldsQuery(
 	          "select n.ngram, count(n.ngram) as cnt from Ngram n " + 
-	            "where n.context = '" + context + "' " + 
-	        	"and n.n = " + n + " " +
+	            "where n.context = ? " + 
+	        	"and n.n = ? " +
 	            "group by n.ngram " + 
 	            "order by cnt desc " + 
-	            "limit " + max,
+	            "limit ?",
 	            false
 	    );
 
+		query.setArgs(context, n, max);
 		query.setSchema(CACHE_NAME);
 
 		return resultsToMap(cache.query(query).getAll());
